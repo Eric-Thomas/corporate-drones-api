@@ -2,3 +2,4 @@ venv
 env
 .aws-sam
 samconfig.toml
+test.json
