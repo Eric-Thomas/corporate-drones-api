@@ -3,30 +3,11 @@ import json
 import boto3
 
 S3_BUCKET = "corporate-drones-music-league"
-DICTATOR_LEAGUE_OBJECT_KEY = "dictator_league.json"
-CORPORATE_DRONES_OBJECT_KEY = "corporate_drones.json"
+OBJECT_KEY = "music_league_rounds.json"
 
 def handler(event, context):
     print(event)
-    # Default is to return all leagues
-    league = "all"
-    query_string_params = event.get("queryStringParameters")
-    if  query_string_params:
-        league = query_string_params.get("league", "all")
-
-    if league == "all":
-        dictator_league_body = _get_json_body(DICTATOR_LEAGUE_OBJECT_KEY)
-        corporate_drones_body = _get_json_body(CORPORATE_DRONES_OBJECT_KEY)
-        # Combine both league rounds
-        dictator_league_body.get("rounds").extend(corporate_drones_body.get("rounds"))
-        resp = dictator_league_body
-    elif league == "corporate-drones":
-        resp = _get_json_body(CORPORATE_DRONES_OBJECT_KEY)
-    elif league == "dictator-league":
-        resp = _get_json_body(DICTATOR_LEAGUE_OBJECT_KEY)
-    else:
-        return {"error": f"league {league} not a valid league"}
-
+    resp = _get_json_body(OBJECT_KEY)
     return resp
 
 
